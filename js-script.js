@@ -8,19 +8,27 @@ button.style.fontSize = '20px';
 button.style.justifyContent = 'center';
 button.style.alignItems = 'center';
 button.style.margin = '50px';
+
+//Add event functionality to resize button to resize elements
 const resize = button.addEventListener('click',function() {
     mainDiv.removeChild(container);
-    let e = prompt('Enter resize value');
-    if (e>100) {
-        boxGrid(Number(16));
-        mainDiv.appendChild(container);
-        addEventListenerToGrid();
+    let e;
+    do {
+        e = prompt('Enter resize value between 1 and 100:');
+        if (e === null) {
+            //user canceled the prompt
+            return;
+        }
+        e = parseInt(e);
+        if (isNaN(e) || e<=0 || e>100) {
+            alert('Please enter a valid number between 0 and 100');
+        }
     }
-    else {
-        boxGrid(Number(e));
-        mainDiv.appendChild(container);
-        addEventListenerToGrid();
-    }
+    while (isNaN(e) || e<=0 || e>100);
+
+    boxGrid(e);
+    mainDiv.appendChild(container);
+    addEventListenerToGrid();
 });
 
 
@@ -46,12 +54,10 @@ function removeEventListenerFromGrid() {
     }); 
 }
 
-
-
-
 //Create the Div Boxes inside a function
 function boxGrid(gridNumber) {
 
+    //removes hover functionality on new creation of grid
     removeEventListenerFromGrid();
     container.innerHTML = '';
     
@@ -71,9 +77,9 @@ function boxGrid(gridNumber) {
     }
 
 };
+//creates default grid with hover functionality
 boxGrid(16);
 addEventListenerToGrid();
-
 
 //Arrange Items in Center
 const mainDiv = document.createElement('div');
